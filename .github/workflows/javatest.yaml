@@ -14,7 +14,24 @@ jobs:
 
       - uses: actions/setup-java@v4
         with:
-          distribution: temurin
-          java-version: 21
+          distribution: 'temurin'
+          java-version: '21'
 
       - run: mvn test
+
+      - name: Send HTML Report Mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+
+          username: ${{ secrets.MAIL_USERNAME}}
+          password: ${{ secret.MAIL_PASSWORD}}
+
+          subject: Automation Test Report
+
+          to: dharshinidharshu623@gmail.com
+          from: Github Actions
+
+          html_body: file://target/surefire-reports/emailable-report.html
